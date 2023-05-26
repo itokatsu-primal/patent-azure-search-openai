@@ -8,12 +8,12 @@ from text import nonewlines
 # top documents from search, then constructs a prompt with them, and then uses OpenAI to generate an completion 
 # (answer) with that prompt.
 
-# Cognitive SearchとOpenAIのAPIを直接使用した、シンプルな retrieve-then-read の実装です。これは、最初に
+# Cognitive SearchとOpenAIのAPIを直接使用した、retrieve-then-read の実装です。これは、最初に
 # 検索からトップ文書を抽出し、それを使ってプロンプトを構成し、OpenAIで補完生成する (answer)をそのプロンプトで表示します。
 
 class ChatReadRetrieveReadApproach(Approach):
     prompt_prefix = """<|im_start|>system
-配膳ロボットの特許情報に関する質問をサポートする教師アシスタントです。回答は簡潔にしてください。
+リチウム硫黄電池の特許情報に関する質問をサポートする教師アシスタントです。回答は簡潔にしてください。
 以下の出典リストに記載されている事実のみを回答してください。以下の情報が十分でない場合は、「わからない」と答えてください。以下の出典を使用しない回答は作成しないでください。ユーザーに明確な質問をすることが助けになる場合は、質問してください。
 各出典元には、名前の後にコロンと実際の情報があり、回答で使用する各事実には必ず出典名を記載してください。ソースを参照するには、四角いブラケットを使用します。例えば、[info1.txt]です。出典を組み合わせず、各出典を別々に記載すること。例えば、[info1.txt][info2.pdf] など。
 {follow_up_questions_prompt}
@@ -24,12 +24,12 @@ Sources:
 {chat_history}
 """
 
-    follow_up_questions_prompt_content = """配膳ロボットについて、ユーザーが次に尋ねそうな非常に簡潔なフォローアップ質問を3つ作成する。
+    follow_up_questions_prompt_content = """リチウム硫黄電池について、ユーザーが次に尋ねそうな非常に簡潔なフォローアップ質問を3つ作成する。
     質問を参照するには、二重の角括弧を使用します（例：<<配膳ロボットの課題は？>>）。
     すでに聞かれた質問を繰り返さないようにしましょう。
     質問のみを生成し、「次の質問」のような質問の前後にテキストを生成しない。"""
 
-    query_prompt_template = """以下は、これまでの会話の履歴と、配膳ロボットの特許情報に関するナレッジベースを検索して回答する必要がある、ユーザーからの新しい質問です。
+    query_prompt_template = """以下は、これまでの会話の履歴と、リチウム硫黄電池の特許情報に関するナレッジベースを検索して回答する必要がある、ユーザーからの新しい質問です。
     会話と新しい質問に基づいて、検索クエリを作成します。
     検索クエリには、引用元のファイル名や文書名（info.txtやdoc.pdfなど）を含めないでください。
     検索キーワードに[]または<<>>内のテキストを含めないでください。
