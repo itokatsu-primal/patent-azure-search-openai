@@ -51,11 +51,11 @@ class ReadDecomposeAsk(Approach):
             self.results = [doc[self.sourcepage_field] + ":" + nonewlines(doc[self.content_field][:500]) for doc in r]
             print("result: ", self.results)
         
-        #hana debug 源実朝の趣味はなんですか？
-        #return ['源範頼-15.txt:源範頼は修善寺にある Azure カフェに良く通っていました。']
+        #hana debug リチウム硫黄電池の技術課題は何ですか？
+        #return ['JP201203.pdf:リチウムポリスルフィドの溶出などです。']
         return "\n".join(self.results)
 
-    #実質この機能って使えないのでは？ セマンティックアンサーってたまにしか出ないんだよね
+    #セマンティックアンサー使えているのか？
     def lookup(self, q: str) -> str:
         print("q2: ", q)
         r = self.search_client.search(q,
@@ -103,10 +103,8 @@ class ReadDecomposeAsk(Approach):
         #https://langchain.readthedocs.io/en/latest/modules/agents/examples/max_iterations.html#max-iterations
         chain = AgentExecutor.from_agent_and_tools(agent, tools, verbose=True, callback_manager=cb_manager, max_iterations=3, early_stopping_method="generate")
         result = chain.run(q)
-
-        #たまに ValueError: Could not parse action directive: Finish[ が出るのなんなん！？
-
-        #参考文献をフロントエンドが期待するように修正（()の代わりに[]）、括弧が多いので引用のフォーマットを改善する必要がある。
+        
+        
         # Fix up references to they look like what the frontend expects ([] instead of ()), need a better citation format since parentheses are so common
         result = result.replace("(", "[").replace(")", "]")
 
