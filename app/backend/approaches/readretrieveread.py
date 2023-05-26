@@ -26,7 +26,7 @@ from lookuptool import CsvLookupTool
 class ReadRetrieveReadApproach(Approach):
 
     template_prefix = \
-"あなたは日本の歴史に関する質問をサポートする教師アシスタントです。" \
+"あなたはリチウム硫黄電池の特許情報に関する質問をサポートする教師アシスタントです。" \
 "以下の情報源に記載されているデータのみを用いて、質問に答えてください。" \
 "各ソースには、名前の後にコロンと実際のデータがあり、レスポンスで使用する各データのソース名を引用します。" \
 "例えば、質問が「空の色は何色ですか」というもので、ソースの1つに「info-123.txt:空は曇っていないときはいつでも青い」と書いてあれば、「空は青い [info-123.txt]」と答えればよいのです。" \
@@ -42,7 +42,7 @@ Question: {input}
 
 Thought: {agent_scratchpad}"""    
 
-    CognitiveSearchToolDescription = "日本の歴史情報の検索に便利です。"
+    CognitiveSearchToolDescription = "リチウム硫黄電池の特許情報の検索に便利です。"
 
     def __init__(self, search_client: SearchClient, openai_deployment: str, sourcepage_field: str, content_field: str):
         self.search_client = search_client
@@ -84,9 +84,9 @@ Thought: {agent_scratchpad}"""
         cb_manager = CallbackManager(handlers=[cb_handler])
         
         acs_tool = Tool(name = "CognitiveSearch", func = lambda q: self.retrieve(q, overrides), description = self.CognitiveSearchToolDescription)
-        #hana debug 今回はテストのため、引数を源範頼に固定しています
+        #hana debug 今回はテストのため、引数をリチウム硫黄電池に固定しています
         #lookup するためのキーワードの生成方法は、別途考える必要があります
-        employee_tool = EmployeeInfoTool("源範頼")
+        employee_tool = EmployeeInfoTool("リチウム硫黄電池")
         tools = [acs_tool, employee_tool]
 
         prompt = ZeroShotAgent.create_prompt(
@@ -113,8 +113,8 @@ class EmployeeInfoTool(CsvLookupTool):
     employee_name: str = ""
 
     def __init__(self, employee_name: str):
-        #hana debug デモのためにサンプルで武将ゆかりの地にあるカフェのデータセットを用意しています
-        super().__init__(filename = "data/restaurantinfo.csv", key_field = "name", name = "源範頼", description = "ゆかりの地にあるカフェに関する質問に答えるのに便利です。")
+        #hana debug デモのためにリチウム硫黄電池の特許情報データセットを用意しています
+        super().__init__(filename = "liS-info.csv", key_field = "name", name = "リチウム硫黄電池", description = "リチウム硫黄電池の特許情報に関する質問に答えるのに便利です。")
         self.func = self.employee_info
         self.employee_name = employee_name
 
