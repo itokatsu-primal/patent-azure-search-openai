@@ -41,8 +41,7 @@ class HtmlCallbackHandler (BaseCallbackHandler):
     def on_chain_error(self, error: Exception, **kwargs: Any) -> None:
         self.html += f"<span style='color:red'>Chain error: {ch(error)}</span><br>"
 
-#hana debug color:yellow はどこからきてるんだ！？見にくいんだよな
-#めんどくさいからオレンジ色ベタ書きにする
+#hana debug color:yellow 
     def on_tool_start(
         self,
         serialized: Dict[str, Any],
